@@ -6,7 +6,9 @@ public class GameFlow {
     Card topCard;
     private Player playerSkipped = null;
     private Map<String, Integer> finalScores = new HashMap<>();
+    private int direction = 1;
     int SCORE_TO_WIN = 500;
+
 
 
     public static Card GetRandomCard(){             //modified it to handle action cards
@@ -40,14 +42,17 @@ public class GameFlow {
     }
 
     public void reverse(Player currPlayer){
-        Collections.reverse(players);
+        //Collections.reverse(players);
+        direction = -direction;
         System.out.println(currPlayer.getName() + " has reversed the order");
 
+        /*
         int currPlayerNum = players.indexOf(currPlayer);  //help properly assign next player
         if(currPlayerNum < players.size() - 1) {
             Player x = players.remove(currPlayerNum);
             players.add(x);
         }
+         */
 
     }
 
@@ -155,7 +160,7 @@ public class GameFlow {
         }
         do {
             topCard = GetRandomCard();
-        }while (topCard.getValue() == Card.Values.WILD || topCard.getValue() == Card.Values.WILD_DRAW_TWO);
+        }while (topCard.getValue() == Card.Values.WILD || topCard.getValue() == Card.Values.WILD_DRAW_TWO);  //top card cant be a wild card
 
         playerSkipped = null;
     }
@@ -180,7 +185,7 @@ public class GameFlow {
             finalScores.put(name, 0);
         }
 
-        /*
+        /* put this piece of code in newRound()
         topCard = GetRandomCard();
         for (Player player : players) {
             for(int i = 0; i < 7;i++){
@@ -192,112 +197,112 @@ public class GameFlow {
 
         //boolean next = false;
         boolean win = false;
+        int currIndex = 0;
+
         while (!win) {
             //while(!next){
-            for (Player player : players) {
+            //for (Player player : players) {
+            Player player = players.get(currIndex);
 
-                if (playerSkipped != null && player == playerSkipped) { //helps skip player without messing with reverse method
-                    playerSkipped = null;
-                    continue;
+            if (playerSkipped != null && player == playerSkipped) { //helps skip player without messing with reverse method
+                playerSkipped = null;
+                currIndex = (currIndex + direction + players.size()) % players.size();
+                continue;
+            }
+
+            boolean next = false;
+            while(!next){
+                System.out.println("------ " + player.getName() + "s'turn ------");
+                System.out.println("Top card: " + topCard.toString());
+                System.out.println("Your cards: ");
+
+                //int i = 1;
+                //for(Card card: player.getPersonalDeck()){
+                for(int i = 0; i < player.getPersonalDeck().size(); i++) {
+                    System.out.println((i + 1) + ". " + player.getPersonalDeck().get(i));
+                        //System.out.println(i + ". " + card.toString());
+                        //i++;
                 }
 
-                boolean next = false;
-                while(!next){
-                    System.out.println("------ " + player.getName() + "s'turn ------");
-                    System.out.println("Top card: " + topCard.toString());
-                    System.out.println("Your cards: ");
+                System.out.println("Enter a card index to play a card, or 0 to draw a card");
 
-                    int i = 1;
-                    for(Card card: player.getPersonalDeck()){
-                        System.out.println(i + ". " + card.toString());
-                        i++;
-                    }
+                int cardIndex = -1;
 
-                    System.out.println("Enter a card index to play a card, or 0 to draw a card");
+                while(!input.hasNextInt()){
+                    System.out.print("Invalid input. Please try again: ");
+                    input.next();
+                }
 
-                    int cardIndex = -1;
+                cardIndex = input.nextInt();
+                input.nextLine();
 
-                    while(!input.hasNextInt()){
-                        System.out.print("Invalid input. Please try again: ");
-                        input.next();
-                    }
-
+                while(cardIndex < 0 || cardIndex > player.getPersonalDeck().size()){
+                    System.out.print("Invalid input. Please try again: ");
                     cardIndex = input.nextInt();
-                    input.nextLine();
+                }
 
-                    while(cardIndex < 0 || cardIndex > player.getPersonalDeck().size()){
-                        System.out.print("Invalid input. Please try again: ");
-                        cardIndex = input.nextInt();
+                if (cardIndex == 0){
+                    player.getPersonalDeck().add(GetRandomCard());
+                    next = true;
+                }
+
+                else if(cardIndex >= 1 && cardIndex <= player.getPersonalDeck().size()){
+
+                    Card chosen = player.getPersonalDeck().get(cardIndex - 1);
+                    boolean sameColour = false;
+
+                    if (chosen.getColour() != null && topCard.getColour() != null) {
+                        sameColour = chosen.getColour().equals(topCard.getColour());
+                    } else if (chosen.getValue() == Card.Values.WILD || chosen.getValue() == Card.Values.WILD_DRAW_TWO) {
+                        sameColour = true;
                     }
 
-                    if (cardIndex == 0){
-                        player.getPersonalDeck().add(GetRandomCard());
-                        next = true;
 
-                    }
-                    else if(cardIndex >= 1 && cardIndex <= player.getPersonalDeck().size()){
+                    //boolean sameColour = chosen.getColour().equals(topCard.getColour());
 
-                        Card chosen = player.getPersonalDeck().get(cardIndex - 1);
-                        boolean sameColour = false;
+                    //boolean sameColour = chosen.getColour().equals(topCard.getColour());
+                    boolean sameValue  = chosen.getValue() == topCard.getValue();
 
-                        if (chosen.getColour() != null && topCard.getColour() != null) {
-                            sameColour = chosen.getColour().equals(topCard.getColour());
-                        } else if (chosen.getValue() == Card.Values.WILD || chosen.getValue() == Card.Values.WILD_DRAW_TWO) {
-                            // Wild cards can be played on anything
-                            sameColour = true;
+                    if (sameColour || sameValue){
+                        if(chosen instanceof ActionCards actions) {
+                            int currPlayerNum = players.indexOf(player);
+                            int nextPlayerNum = (currPlayerNum + direction + players.size()) % players.size();
+
+                            actions.processActionCard(this, players.get(nextPlayerNum), player);
                         }
 
+                        //topCard.setColour(player.getPersonalDeck().get(cardIndex - 1).getColour());
+                        //topCard.setValue(player.getPersonalDeck().get(cardIndex - 1).getValue());
+                        //player.getPersonalDeck().remove(cardIndex - 1);
 
-                        //boolean sameColour = chosen.getColour().equals(topCard.getColour());
+                        Card playedCard = player.getPersonalDeck().remove(cardIndex - 1);
+                        topCard.setValue(playedCard.getValue());
+                        if (playedCard.getColour() != null) {
+                            topCard.setColour(playedCard.getColour());
+                        }
 
-                        //boolean sameColour = chosen.getColour().equals(topCard.getColour());
-                        boolean sameValue  = chosen.getValue() == topCard.getValue();
-
-                        if (sameColour || sameValue){
-                            if(chosen instanceof ActionCards actions) {
-
-                                int currPlayerNum = (players.indexOf(player)) % players.size();
-                                Player currPlayer = players.get(currPlayerNum) ;
-
-                                int nextPlayerNum = (players.indexOf(player) + 1) % players.size();
-                                Player nextPlayer = players.get(nextPlayerNum) ;
-
-                                actions.processActionCard(this, nextPlayer, currPlayer);
-                            }
-
-                            //topCard.setColour(player.getPersonalDeck().get(cardIndex - 1).getColour());
-                            //topCard.setValue(player.getPersonalDeck().get(cardIndex - 1).getValue());
-                            //player.getPersonalDeck().remove(cardIndex - 1);
-
-                            Card playedCard = player.getPersonalDeck().remove(cardIndex - 1);
-                            topCard.setValue(playedCard.getValue());
-                            if (playedCard.getColour() != null) {
-                                topCard.setColour(playedCard.getColour());
-                            }
-
-                            if(player.getPersonalDeck().isEmpty()){
-                                boolean finalWinner = checkWinner(player);
-                                if(finalWinner) {
-                                    return;
-                                }
-
-                                win = true;
-                                next = true;
+                        if(player.getPersonalDeck().isEmpty()){
+                            boolean finalWinner = checkWinner(player);
+                            if(finalWinner) {
                                 return;
                             }
+
+                            win = true;
                             next = true;
-
-                        } else {
-                            System.out.println("Placing that card is not a valid move. Try again. ");
-
+                            return;
                         }
-                    } else{
-                        System.out.println("Invalid input. Please try again: ");
+                        next = true;
+
+                    } else {
+                        System.out.println("Placing that card is not a valid move. Try again. ");
                     }
+                } else{
+                    System.out.println("Invalid input. Please try again: ");
                 }
-            }
+            } currIndex = (currIndex + direction + players.size()) % players.size();
         }
     }
+
 
     public static void main(String[] args) {
         GameFlow game = new GameFlow();
