@@ -48,6 +48,7 @@ public class GameFlow {
             Player x = players.remove(currPlayerNum);
             players.add(x);
         }
+
     }
 
     public void skip(Player nextPlayer) {
@@ -119,6 +120,45 @@ public class GameFlow {
         return score;
     }
 
+    public boolean checkWinner(Player winner) {
+        int winnerScore = score(winner);
+        finalScores.put(winner.getName(), finalScores.get(winner.getName()) + winnerScore);
+
+        System.out.println("Player " + winner.getName() + " wins this round!");
+        System.out.println(winner.getName() + " earned " + winnerScore + " points");
+
+        System.out.println("CURRENT SCORES: ");
+        for(Player p: players) {
+            System.out.println(p.getName() + ": " + finalScores.get(p.getName()));
+            if(finalScores.get(p.getName()) >= SCORE_TO_WIN) {
+                System.out.println(p.getName() + " is the final winner!");
+                return true;
+            }
+        }
+
+        System.out.println("No winner yet. Type 'NEW' to start a new round");
+        String newRoundInput = input.nextLine().toUpperCase();
+        if(newRoundInput.equals("NEW")) {
+            newRound();
+        } else {
+            System.exit(0);
+        }
+        return false;
+    }
+
+    public void newRound() {
+        for(Player player: players) {
+            player.getPersonalDeck().clear();
+            for(int i = 0; i < 7; i++) {
+                player.addCard(GetRandomCard());
+            }
+        }
+        do {
+            topCard = GetRandomCard();
+        }while (topCard.getValue() == Card.Values.WILD || topCard.getValue() == Card.Values.WILD_DRAW_TWO);
+
+        playerSkipped = null;
+    }
 
     public void play() {
         int numPlayers;
@@ -140,13 +180,15 @@ public class GameFlow {
             finalScores.put(name, 0);
         }
 
+        /*
         topCard = GetRandomCard();
         for (Player player : players) {
             for(int i = 0; i < 7;i++){
                 player.addCard(GetRandomCard());
             }
         }
-
+        */
+        newRound();
 
         //boolean next = false;
         boolean win = false;
@@ -181,6 +223,7 @@ public class GameFlow {
                     }
 
                     cardIndex = input.nextInt();
+                    input.nextLine();
 
                     while(cardIndex < 0 || cardIndex > player.getPersonalDeck().size()){
                         System.out.print("Invalid input. Please try again: ");
@@ -233,34 +276,26 @@ public class GameFlow {
                             }
 
                             if(player.getPersonalDeck().isEmpty()){
-                                int winnerScore = score(player);
-                                finalScores.put(player.getName(), finalScores.get(player.getName()) + winnerScore);
-
-                                System.out.println("Player " + player.getName() + " wins this round!");
-                                System.out.println(player.getName() + " earned " + winnerScore + " points");
-
-                                System.out.println("CURRENT SCORES: ");
-
-                                for(Player p: players) {
-                                    System.out.println(p.getName() + ": " + finalScores.get(p.getName()));
+                                boolean finalWinner = checkWinner(player);
+                                if(finalWinner) {
+                                    return;
                                 }
 
                                 win = true;
+                                next = true;
                                 return;
                             }
                             next = true;
-                        }
-                        else {
+
+                        } else {
                             System.out.println("Placing that card is not a valid move. Try again. ");
 
                         }
-                    }
-                    else{
+                    } else{
                         System.out.println("Invalid input. Please try again: ");
                     }
                 }
             }
-            //next=false;
         }
     }
 
