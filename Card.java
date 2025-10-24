@@ -23,7 +23,6 @@ public class Card {
         return value;
     }
 
-    // don't need setters since we don't want card values/colours to change
 
     public void setColour(Colours colour) {
         this.colour = colour;
