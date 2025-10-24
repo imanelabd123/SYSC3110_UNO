@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameFlow {
-    private List<Player> players = new ArrayList<>();
-    private Player playerSkipped = null;
     Scanner input = new Scanner(System.in);
+    private List<Player> players = new ArrayList<>();
     Card topCard;
+    private Player playerSkipped = null;
+    int SCORE_TO_WIN = 500;
 
 
     public static Card GetRandomCard(){             //modified it to handle action cards
@@ -89,6 +90,32 @@ public class GameFlow {
         skip(nextPlayer);
     }
 
+    public int score(Player nextPlayer){
+        List<Card> deck = nextPlayer.getPersonalDeck();
+        int score = 0;
+        for (int i = 0; i < deck.size(); i++ ) {
+            Card card = deck.get(i);
+
+            switch(card.getValue()) {
+                case ZERO -> score += 0;
+                case ONE -> score +=1;
+                case TWO -> score += 2;
+                case THREE -> score += 3;
+                case FOUR -> score += 4;
+                case FIVE -> score +=5;
+                case SIX -> score += 6;
+                case SEVEN -> score += 7;
+                case EIGHT -> score +=8;
+                case NINE -> score += 9;
+                case DRAW_ONE -> score += 10;
+                case SKIP, REVERSE -> score += 20;
+                case WILD_DRAW_TWO -> score += 25;
+                case  WILD -> score += 50;
+            }
+        }
+        return score;
+    }
+
 
     public void play() {
         int numPlayers;
@@ -117,17 +144,19 @@ public class GameFlow {
         }
 
 
-        boolean next = false;
+        //boolean next = false;
         boolean win = false;
         while (!win) {
-            while(!next){
-                for (Player player : players) {
+            //while(!next){
+            for (Player player : players) {
 
-                    if (playerSkipped != null && player == playerSkipped) { //helps skip player without messing with reverse method
-                        playerSkipped = null;
-                        continue;
-                    }
+                if (playerSkipped != null && player == playerSkipped) { //helps skip player without messing with reverse method
+                    playerSkipped = null;
+                    continue;
+                }
 
+                boolean next = false;
+                while(!next){
                     System.out.println("------ " + player.getName() + "s'turn ------");
                     System.out.println("Top card: " + topCard.toString());
                     System.out.println("Your cards: ");
@@ -200,7 +229,11 @@ public class GameFlow {
                             }
 
                             if(player.getPersonalDeck().isEmpty()){
-                                System.out.println("Player " + player.getName() + " won!");
+                                int nextPlayerNum = (players.indexOf(player) + 1) % players.size();
+                                Player nextPlayer = players.get(nextPlayerNum) ;
+                                int winnerScore = score(nextPlayer);
+                                System.out.println("Player " + player.getName() + " wins this round!");
+                                System.out.println(player.getName() + " earned " + winnerScore + " points");
                                 win = true;
                                 return;
                             }
@@ -208,6 +241,7 @@ public class GameFlow {
                         }
                         else {
                             System.out.println("Placing that card is not a valid move. Try again. ");
+
                         }
                     }
                     else{
@@ -215,7 +249,7 @@ public class GameFlow {
                     }
                 }
             }
-            next=false;
+            //next=false;
         }
     }
 
