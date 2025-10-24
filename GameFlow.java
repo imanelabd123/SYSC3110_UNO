@@ -1,14 +1,11 @@
-import java.util.Random;
-import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class GameFlow {
     Scanner input = new Scanner(System.in);
     private List<Player> players = new ArrayList<>();
     Card topCard;
     private Player playerSkipped = null;
+    private Map<String, Integer> finalScores = new HashMap<>();
     int SCORE_TO_WIN = 500;
 
 
@@ -90,27 +87,33 @@ public class GameFlow {
         skip(nextPlayer);
     }
 
-    public int score(Player nextPlayer){
-        List<Card> deck = nextPlayer.getPersonalDeck();
+    public int score(Player winner){
+        //List<Card> deck = nextPlayer.getPersonalDeck();
         int score = 0;
-        for (int i = 0; i < deck.size(); i++ ) {
-            Card card = deck.get(i);
+        for(Player player : players) {
+            if (player == winner){
+                continue;
+            }
+            List<Card> deck = player.getPersonalDeck();
+            for (int i = 0; i < deck.size(); i++ ) {
+                Card card = deck.get(i);
 
-            switch(card.getValue()) {
-                case ZERO -> score += 0;
-                case ONE -> score +=1;
-                case TWO -> score += 2;
-                case THREE -> score += 3;
-                case FOUR -> score += 4;
-                case FIVE -> score +=5;
-                case SIX -> score += 6;
-                case SEVEN -> score += 7;
-                case EIGHT -> score +=8;
-                case NINE -> score += 9;
-                case DRAW_ONE -> score += 10;
-                case SKIP, REVERSE -> score += 20;
-                case WILD_DRAW_TWO -> score += 25;
-                case  WILD -> score += 50;
+                switch(card.getValue()) {
+                    case ZERO -> score += 0;
+                    case ONE -> score +=1;
+                    case TWO -> score += 2;
+                    case THREE -> score += 3;
+                    case FOUR -> score += 4;
+                    case FIVE -> score +=5;
+                    case SIX -> score += 6;
+                    case SEVEN -> score += 7;
+                    case EIGHT -> score +=8;
+                    case NINE -> score += 9;
+                    case DRAW_ONE -> score += 10;
+                    case SKIP, REVERSE -> score += 20;
+                    case WILD_DRAW_TWO -> score += 25;
+                    case  WILD -> score += 50;
+                }
             }
         }
         return score;
@@ -134,6 +137,7 @@ public class GameFlow {
             System.out.print("Enter a name for player " + i + ": ");
             String name = input.next();
             players.add(new Player(name));
+            finalScores.put(name, 0);
         }
 
         topCard = GetRandomCard();
@@ -229,11 +233,18 @@ public class GameFlow {
                             }
 
                             if(player.getPersonalDeck().isEmpty()){
-                                int nextPlayerNum = (players.indexOf(player) + 1) % players.size();
-                                Player nextPlayer = players.get(nextPlayerNum) ;
-                                int winnerScore = score(nextPlayer);
+                                int winnerScore = score(player);
+                                finalScores.put(player.getName(), finalScores.get(player.getName()) + winnerScore);
+
                                 System.out.println("Player " + player.getName() + " wins this round!");
                                 System.out.println(player.getName() + " earned " + winnerScore + " points");
+
+                                System.out.println("CURRENT SCORES: ");
+
+                                for(Player p: players) {
+                                    System.out.println(p.getName() + ": " + finalScores.get(p.getName()));
+                                }
+
                                 win = true;
                                 return;
                             }
