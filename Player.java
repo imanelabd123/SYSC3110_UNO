@@ -22,7 +22,6 @@ public class Player {
         personalDeck.add(c);
     }
 
-
     @Override
     public String toString() {
         return name;
