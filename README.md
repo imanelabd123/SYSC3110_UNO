@@ -14,6 +14,7 @@ Features Implemented:
 - Scoring system, and winner declaration
 
 Planned Future Enhancements and Milestone Tasks:
+
 Milestone 2: GUI Implementation & Unit Testing. 
 Planned Features:
 - Graphical user interface using Java Swing
@@ -35,6 +36,7 @@ Planned Features:
 - Customization options for players using JSON or XML
 
 General task breakdown of each group member:
+
 Marc Aoun:
 - Responsible for coding GameFlow
 - Responsible for debugging all code
