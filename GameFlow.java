@@ -1,17 +1,34 @@
 import java.util.*;
+/**
+* GameFlow is responsible for managing the overall UNO game structure and progression.
+* Initializes players and begins the game, handles player turns and turn progression.
+* Compute and maintain player's scores to determine winner.
+*
+* @author Marc Aoun
+* @version 1.0 October 23, 2025
+* 
+* @author Amreen Shahid
+* @version 1.1 October 24, 2025
+* 
+* @author Naima Mamun
+* @verion 1.2 October 24, 2025
+*/
 
 public class GameFlow {
     Scanner input = new Scanner(System.in);
     private List<Player> players = new ArrayList<>();
-    Card topCard;
+    private Card topCard;
     private Player playerSkipped = null;
     private Map<String, Integer> finalScores = new HashMap<>();
     private int direction = 1;
-    int SCORE_TO_WIN = 500;
+    private int SCORE_TO_WIN = 500;
 
-
-
-    public static Card GetRandomCard(){             //modified it to handle action cards
+    /**
+    * Generate random card instance, can return a regular number card or wild card
+    * 
+    * @return a new insatnce of Card or ActionCards
+    */
+    public static Card GetRandomCard(){            
         Random rand = new Random();
 
         //String[] colours= {"Yellow", "Red", "Blue", "Green"};
@@ -34,23 +51,43 @@ public class GameFlow {
         return new Card(colour, value);
 
     }
-
+    
+    /**
+    * Makes player draw a card and adds to their current pile of cards.
+    * Prints a description of the card attributes.
+    * 
+    * @param nextPlayer the player that must draw the next card.
+    */
     public void drawOne(Player nextPlayer) {
         Card drawnCard = GetRandomCard();
         nextPlayer.addCard(drawnCard);
         System.out.println(nextPlayer.getName() + " has to draw a card: " + drawnCard);
     }
-
+    
+    /**
+    * Marks a player who's turn will be skipped at the next turn.
+    *
+    * @param currPlayer the player that caused the direction change.
+    */
     public void reverse(Player currPlayer){
         direction = -direction;
         System.out.println(currPlayer.getName() + " has reversed the order");
     }
-
+    
+    /**
+    * Reverse the current direction of play, prints a message about the player that did so.
+    * 
+    * @param nextPlayer the player who's turn is skipped.
+    */
     public void skip(Player nextPlayer) {
         System.out.println(nextPlayer.getName() + " misses their turn");
         playerSkipped = nextPlayer;
     }
-
+    
+    /**
+    * Allows current player to set a new colour to be played starting at the next turn.
+    * Updates the colour of the top of the pile of cards.
+    */
     public void wild(){
         boolean valid = false;
         while(!valid) {
@@ -70,6 +107,12 @@ public class GameFlow {
         }
     }
 
+    /**
+    * Adds two random cards to next player's pile and skips their turn. 
+    * 
+    * @param nextPlayer the player who will be drawing two more cards, and who's turn
+    * will be skipped.
+    */
     public void wildDrawTwo(Player nextPlayer) {
         wild();
         Card drawnCard1 = GetRandomCard();
@@ -82,6 +125,13 @@ public class GameFlow {
         skip(nextPlayer);
     }
 
+    /**
+    * Calculates score of the winner of the current round, by taking a sum of all the other 
+    * player's cards according to specific game rules.
+    * 
+    * @param winner the player who won the round.
+    * @return integer score calculated of winner.
+    */
     public int score(Player winner){
         int score = 0;
         for(Player player : players) {
@@ -113,6 +163,13 @@ public class GameFlow {
         return score;
     }
 
+    /**
+    * Computes, updates and displays player's current round scores, 
+    * prompts player to start a new round or quit.
+    * 
+    * @param winner the player who won the round.
+    * @return true if the round has a winner that have no cards left, or false otherwise.
+    */
     public boolean checkWinner(Player winner) {
         int winnerScore = score(winner);
         finalScores.put(winner.getName(), finalScores.get(winner.getName()) + winnerScore);
@@ -139,6 +196,10 @@ public class GameFlow {
         return false;
     }
 
+    /**
+    * Starts a new rounf by clearing player's current deck of cards, 
+    * choosing a regular card to start a new pile.
+    */
     public void newRound() {
         for(Player player: players) {
             player.getPersonalDeck().clear();
@@ -153,6 +214,13 @@ public class GameFlow {
         playerSkipped = null;
     }
 
+    /**
+    * Runs main loop for the UNO Game.
+    * Prompts player for number or participants and names.
+    * Initializes scores, deals the cards.
+    * Goes through the player turns taking into account wild card changes.
+    * 
+    */
     public void play() {
         int numPlayers;
 
@@ -289,9 +357,13 @@ public class GameFlow {
         }
     }
 
-
+    /**
+    * Main method that creates a new GameFlow class that will initilize our game,
+    * begins the game.
+    */
     public static void main(String[] args) {
         GameFlow game = new GameFlow();
         game.play();
     }
+
 }
