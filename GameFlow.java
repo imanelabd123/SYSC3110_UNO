@@ -53,7 +53,7 @@ public class GameFlow {
     }
     
     /**
-    * Makes player draw a card and adds to their current pile of cards.
+    * Makes player draw a card and adds to their personal deck.
     * Prints a description of the card attributes.
     * 
     * @param nextPlayer the player that must draw the next card.
@@ -108,7 +108,7 @@ public class GameFlow {
     }
 
     /**
-    * Adds two random cards to next player's pile and skips their turn. 
+    * Adds two random cards to next player's deck and skips that player's turn. 
     * 
     * @param nextPlayer the player who will be drawing two more cards, and who's turn
     * will be skipped.
@@ -367,3 +367,4 @@ public class GameFlow {
     }
 
 }
+
