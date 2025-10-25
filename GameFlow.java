@@ -42,25 +42,14 @@ public class GameFlow {
     }
 
     public void reverse(Player currPlayer){
-        //Collections.reverse(players);
         direction = -direction;
         System.out.println(currPlayer.getName() + " has reversed the order");
-
-        /*
-        int currPlayerNum = players.indexOf(currPlayer);  //help properly assign next player
-        if(currPlayerNum < players.size() - 1) {
-            Player x = players.remove(currPlayerNum);
-            players.add(x);
-        }
-         */
-
     }
 
     public void skip(Player nextPlayer) {
         System.out.println(nextPlayer.getName() + " misses their turn");
         playerSkipped = nextPlayer;
     }
-
 
     public void wild(){
         boolean valid = false;
@@ -94,7 +83,6 @@ public class GameFlow {
     }
 
     public int score(Player winner){
-        //List<Card> deck = nextPlayer.getPersonalDeck();
         int score = 0;
         for(Player player : players) {
             if (player == winner){
@@ -220,8 +208,8 @@ public class GameFlow {
                 //for(Card card: player.getPersonalDeck()){
                 for(int i = 0; i < player.getPersonalDeck().size(); i++) {
                     System.out.println((i + 1) + ". " + player.getPersonalDeck().get(i));
-                        //System.out.println(i + ". " + card.toString());
-                        //i++;
+                    //System.out.println(i + ". " + card.toString());
+                    //i++;
                 }
 
                 System.out.println("Enter a card index to play a card, or 0 to draw a card");
@@ -257,9 +245,7 @@ public class GameFlow {
                         sameColour = true;
                     }
 
-
                     //boolean sameColour = chosen.getColour().equals(topCard.getColour());
-
                     //boolean sameColour = chosen.getColour().equals(topCard.getColour());
                     boolean sameValue  = chosen.getValue() == topCard.getValue();
 
@@ -287,9 +273,9 @@ public class GameFlow {
                                 return;
                             }
 
-                            win = true;
+                            //win = true;
                             next = true;
-                            return;
+                            continue;
                         }
                         next = true;
 
