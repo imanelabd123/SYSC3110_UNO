@@ -39,12 +39,15 @@ Marc Aoun:
 - Responsible for coding GameFlow
 - Responsible for debugging all code
 - Responsible for coding the whole structure of the game
+
 Iman Elabd:
-- Reponsible for unit testing and
+- Reponsible for unit testing
+
 Naima Mamun:
 - Reponsible for creating all UML diagrams
 - Responsible for writing the report answering questions about data structures
 - Responsible for adding and editing JavaDoc comments
+  
 Amreen Shahid:
 - Responsible for coding Player class
 - Responsible for coding Card class
