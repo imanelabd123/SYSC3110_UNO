@@ -25,6 +25,6 @@ public class PlayerTest{
     player.addCard(card);
     assertFalse(player.getPersonalDeck().isEmpty()); 
     List<Card> deck = player.getPersonalDeck();
-    assertEquals(1, deck.size());
+    assertEquals(1, deck.size());}
   
 }
