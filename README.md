@@ -38,7 +38,7 @@ Planned Features:
 General task breakdown of each group member:
 
 Marc Aoun:
-- Responsible for coding GameFlow
+- Responsible for coding GameFlow, Player and Card Class
 - Responsible for debugging all code
 - Responsible for coding the whole structure of the game
 
@@ -51,11 +51,10 @@ Naima Mamun:
 - Responsible for adding and editing JavaDoc comments
   
 Amreen Shahid:
-- Responsible for coding Player class
-- Responsible for coding Card class
+- Responsible for coding methods drawOne, reverse, skip, wild, wildDrawTwo, score and checkWinner in the GameFlow class
 - Responsible for coding ActionCard class
 
-A complete detaile breakdown of each member's task are provided in the attached report containing UML Diagrams, and write ups.
+A complete detailed breakdown of each member's task are provided in the attached report containing UML Diagrams, and write ups.
 
 Known Issues:
 Potential issues with skipping turns while reversing playing order.
