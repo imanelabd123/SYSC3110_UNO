@@ -15,7 +15,16 @@ public class PlayerTest{
   @Test
   public void testAddCardToDeckPlayer(){
     Player player = new Player("Amreen");
-    assertTrue(player.get)
-  
+    assertTrue(player.getPersonalDeck().isEmpty());
+  }
+
+  @Test
+  public void testNotEmptyDeck(){
+    Player player = new Player("Marc"):
+    Card card = new Card(Card.Colours.RED, Card.Values.THREE);
+    player.addCard(card);
+    assertFalse(player.getPersonalDeck().isEmpty()); 
+    List<Card> deck = player.getPersonalDeck();
+    assertEquals(1, deck.size());
   
 }
