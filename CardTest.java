@@ -15,6 +15,19 @@ public class CardTest{
     Card card = new Card(Card.Colours.YELLOW, Card.Values.TWO);
     card.setColour(Card.Colours.GREEN);
     card.setValue(Card.Values.SEVEN)
-    assertEquals(Card.Colours.RED, card.getColour());
-    assertEquals(Card.Colours.SEVEN, card.getValue());}
+    assertEquals(Card.Colours.Green, card.getColour());
+    assertEquals(Card.Values.SEVEN, card.getValue());}
+  
+  @Test
+  public void testCardOutputColour(){
+    Card card = new Card(Card.Colours.RED, Card.Values.FIVE);
+    assertEquals("RED FIVE", card.toString());}
+  
+  @Test
+   public void testCardOutputWild(){
+    Card card = new Card(null, Card.Values.WILD);
+    assertEquals("WILD", card.toString());}
+
 }
+
+
