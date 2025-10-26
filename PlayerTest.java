@@ -20,7 +20,7 @@ public class PlayerTest{
 
   @Test
   public void testNotEmptyDeck(){
-    Player player = new Player("Marc"):
+    Player player = new Player("Marc");
     Card card = new Card(Card.Colours.RED, Card.Values.THREE);
     player.addCard(card);
     assertFalse(player.getPersonalDeck().isEmpty()); 
