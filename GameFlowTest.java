@@ -3,6 +3,9 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Scanner;
 import java.lang.reflect.Field;
+import java.lang.reflect.Field;
+import java.io.ByteArrayInputStream;
+
 import java.util.Map;
 
 public class GameFlowTest{
@@ -127,7 +130,7 @@ public class GameFlowTest{
   throws Exception{
     Field fields = GameFlow.class.getDeclaredField("input");
     fields.setAccessible(true);
-    fields.set(game, new Scanner(new ))
+    fields.set(game, new Scanner(new ByteArrayInputStream(text.getBytes())));
     
   }
   
