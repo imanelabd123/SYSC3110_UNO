@@ -6,10 +6,11 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
-public class CardTest{
-  /***
+
+ /***
   this is test  for the card creation
   */
+public class CardTest{
   @Test
   public void testCardCreation(){
     Card card = new Card(Card.Colours.RED, Card.Values.FIVE);
@@ -26,7 +27,8 @@ public class CardTest{
     card.setColour(Card.Colours.GREEN);
     card.setValue(Card.Values.SEVEN);
     assertEquals(Card.Colours.GREEN, card.getColour());
-    assertEquals(Card.Values.SEVEN, card.getValue());}
+    assertEquals(Card.Values.SEVEN, card.getValue());
+  }
   /***
   this is test for toString() for both colour and value 
   */
@@ -43,5 +45,4 @@ public class CardTest{
     assertEquals("WILD", card.toString());}
 
 }
-
 
