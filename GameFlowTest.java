@@ -73,8 +73,7 @@ public class GameFlowTest{
     assertEquals(before + 1, player2.getPersonalDeck().size());
   }
   @Test 
-  public void testReverseDirection()
-  throws Exception{
+  public void testReverseDirection() throws Exception{
     game.reverse(player1);
     Field directionField = GameFlow.class.getDeclaredField("direction");
     directionField.setAccessible(true);
@@ -82,8 +81,7 @@ public class GameFlowTest{
     assertEquals(-1,direction);
   }
    @Test 
-  public void testSkipPlayer()
-  throws Exception{
+  public void testSkipPlayer() throws Exception{
     game.skip(player2);
     Field skipField = GameFlow.class.getDeclaredField("playerSkipped");
     skipField.setAccessible(true);
