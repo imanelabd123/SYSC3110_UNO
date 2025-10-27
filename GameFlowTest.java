@@ -71,9 +71,9 @@ public class GameFlowTest{
   }
   @Test
   public void testDrawOneCard(){
-    int old = player2.getPersonalDeck().size();
+    int before = player2.getPersonalDeck().size();
     game.drawOne(player2);
-    assertEquals(old + 1, player2.getPersonalDeck().size());
+    assertEquals(before + 1, player2.getPersonalDeck().size());
   }
   @Test 
   public void testReverseDirection()
@@ -108,9 +108,9 @@ public class GameFlowTest{
    @Test 
    public void testWildDrawAddsT() throws Exception {
     setScannerInput("YELLOW\n");
-    int old = player2.getPersonalDeck().size();
+    int before = player2.getPersonalDeck().size();
     game.wildDrawTwo(player2);
-    assertEquals(old + 2, player2.getPersonalDeck().size());
+    assertEquals(before + 2, player2.getPersonalDeck().size());
     Field skippedField = GameFlow.class.getDeclaredField("playerSkipped");
     skippedField.setAccessible(true);
     Player skip = (Player) skippedField.get(game);
