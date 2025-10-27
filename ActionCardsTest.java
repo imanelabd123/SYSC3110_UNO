@@ -29,4 +29,12 @@ public class ActionCardsTest{
     topCardField.setAccessible(true);
     topCardField.set(game,new Card(Card.Colours.BLUE,Card.Values.FOUR))
   }
+
+  private void setScannerInput(String text)throws Exception{
+    Field fields = GameFlow.class.getDeclaredField("input");
+    fields.setAccessible(true);
+    fields.set(game, new Scanner(new ByteArrayInputStream(text.getBytes())));
+    
+  }
+  
 }
