@@ -39,19 +39,22 @@ public class GameFlowTest{
     for(int i = 0; i < 10; i++){
       Card card = GameFlow.GetRandomCard();
       assertNotNull(card);
-      assertNotNull(card.getValue());
-      if(card.getValue() !=Card.Values.WILD && card.getValue() != Card.Values.WILD_DRAW_TWO){
-        assertNotNull(card.getColour());
+        assertNotNull(card.getValue());
+        if (card.getValue() != Card.Values.WWILD &&
+          card.getValue() != Card.Values.WILD_DRAW_TWO) {
+          assertNotNull(card.getColour());
+      }
     }
-    
   }
-}
+      
+    
+
 
   @Test
-  public void testNewRoundDealsCards()
-  throws Exception{
+  public void testNewRoundDealsCards()throws Exception{
     player1.getPersonalDeck().clear();
     player2.getPersonalDeck().clear();
+    game.newRound()
     int expected = 7;
     assertEquals(expected, player1.getPersonalDeck().size());
     assertEquals(expected, player2.getPersonalDeck().size());
