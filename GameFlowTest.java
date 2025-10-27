@@ -121,10 +121,14 @@ public class GameFlowTest{
     player2.addCard(new ActionCards(Card.Colours.YELLOW,Card.Values.SKIP));
     player2.addCard(new Card(null,Card.Values.WILD));
     int score = game.score(player1);
-    assertEquals()
-
-    
+    assertEquals(71, score); 
   }
+ private void setScannerInput(String text) 
+  throws Exception{
+    Field fields = GameFlow.class.getDeclaredField("input");
+    fields.setAccessible(true);
+    fields.set(game, new Scanner(new ))
+    
   }
   
     
