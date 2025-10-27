@@ -3,7 +3,6 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Scanner;
 import java.lang.reflect.Field;
-import java.lang.reflect.Field;
 import java.io.ByteArrayInputStream;
 
 import java.util.Map;
@@ -17,19 +16,19 @@ public class GameFlowTest{
     player1 = new Player("John");
     player2 = new Player("Mark");
 
-    Field playersField = GameFlow.class.getDeclaredField("player");
+    Field playersField = GameFlow.class.getDeclaredField("players");
     playersField.setAccessible(true);
     List players = (List) playersField.get(game);
     players.clear();
     players.add(player1);
     players.add(player2);
 
-    Field scoresField = GameFlow.class.getDeclaredField("finalScore");
+    Field scoresField = GameFlow.class.getDeclaredField("finalScores");
     scoresField.setAccessible(true);
-    Map scores = (Map) playersField.get(game);
+    Map scores = (Map) scoresField.get(game);
     players.clear();
     scores.put(player1.getName(), 0);
-    scores.add(player2.getName(), 0); 
+    scores.put(player2.getName(), 0); 
     
     Field topCardField = GameFlow.class.getDeclaredField("topCard");
     topCardField.setAccessible(true);
@@ -41,12 +40,13 @@ public class GameFlowTest{
       Card card = GameFlow.GetRandomCard();
       assertNotNull(card);
       assertNotNull(card.getValue());
-      if(card.getValue() !=Card.Values.WILD && card.getValuse() != Card.Values.WILD_DRAW_TWO){
+      if(card.getValue() !=Card.Values.WILD && card.getValue() != Card.Values.WILD_DRAW_TWO){
         assertNotNull(card.getColour());
     }
     
   }
- }
+}
+
   @Test
   public void testNewRoundDealsCards()
   throws Exception{
