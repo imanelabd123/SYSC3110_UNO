@@ -30,7 +30,7 @@ public class GameFlowTest{
     Field scoresField = GameFlow.class.getDeclaredField("finalScores");
     scoresField.setAccessible(true);
     Map scores = (Map) scoresField.get(game);
-    players.clear();
+    scores.clear();
     scores.put(player1.getName(), 0);
     scores.put(player2.getName(), 0); 
     
@@ -40,15 +40,15 @@ public class GameFlowTest{
   }
   @Test
   public void testGetRandomCard(){
-    for(int i = 0; i < 10; i++){
-      Card card = GameFlow.GetRandomCard();
-      assertNotNull(card);
-        assertNotNull(card.getValue());
-        if (card.getValue() != Card.Values.WWILD &&
-          card.getValue() != Card.Values.WILD_DRAW_TWO) {
-          assertNotNull(card.getColour());
-      }
-    }
+     for (int i = 0; i < 10; i++) {
+          Card card = GameFlow.GetRandomCard();
+          assertNotNull(card);
+          assertNotNull(card.getValue());
+          if (card.getValue() != Card.Values.WILD &&
+              card.getValue() != Card.Values.WILD_DRAW_TWO) {
+              assertNotNull(card.getColour());
+            }
+        }
   }
       
     
