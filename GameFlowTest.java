@@ -52,7 +52,7 @@ public class GameFlowTest{
   }
       
   @Test
-  public void testNewRoundDealsCards()throws Exception{
+  public void testNewRoundDealsCards() throws Exception{
     player1.getPersonalDeck().clear();
     player2.getPersonalDeck().clear();
     game.newRound()
@@ -89,10 +89,9 @@ public class GameFlowTest{
     assertEquals(skipped == player2);
   }
    @Test 
-  public void testWildCardColour()throws Exception{
+  public void testWildCardColour() throws Exception{
     setScannerInput("RED\n");
     game.wild();
-    
     Field topCardField = GameFlow.class.getDeclaredField("topCard");
     topCardField.setAccessible(true);
     Card top = (Card) topCardField.get(game);
