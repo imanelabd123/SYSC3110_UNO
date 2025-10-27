@@ -29,19 +29,12 @@ public class ActionCardsTest{
     topCardField.setAccessible(true);
     topCardField.set(game,new Card(Card.Colours.BLUE,Card.Values.FOUR))
   }
-    public void testDrawOneCard(){
-    int old = player2.getPersonalDeck().size();
-    game.drawOne(player2);
-    assertEquals(old + 1, player2.getPersonalDeck().size());
-  }
-  @Test 
-  public void testReverseDirection() throws Exception{
-    ActionCards action = new ActionCards(Card.Colours.GREEN, Card.Values.REVERSE);
-    action.processActionCard(game, nextPlayer,currentPlayer);
-    Field directionField = GameFlow.class.getDeclaredField("direction");
-    directionField.setAccessible(true);
-    int direction = (int) directionField.get(game);
-    assertEquals(-1,direction);
+  @Test
+  public void testDrawOneCard(){
+    int before = nextPlayer.getPersonalDeck().size();
+    ActionCards action = new ActionCards(Card.Colours.RED,Card.Values.DRAW_ONE);
+    action.processActionCard(game, nextPlayer, currentPlayer);
+    assertEquals(before + 1, nextPlayer.getPersonalDeck().size());
   }
   @Test 
   public void testReverseDirection() throws Exception{
