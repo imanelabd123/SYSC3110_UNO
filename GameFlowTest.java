@@ -51,9 +51,6 @@ public class GameFlowTest{
         }
   }
       
-    
-
-
   @Test
   public void testNewRoundDealsCards()throws Exception{
     player1.getPersonalDeck().clear();
@@ -94,8 +91,7 @@ public class GameFlowTest{
     assertEquals(skipped == player2);
   }
    @Test 
-  public void testWildCardColour()
-  throws Exception{
+  public void testWildCardColour()throws Exception{
     setScannerInput("RED\n");
     game.wild();
     
