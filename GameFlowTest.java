@@ -69,9 +69,64 @@ public class GameFlowTest{
   public void testReverseDirection()
   throws Exception{
     game.reverse(player1);
+    Field directionField = GameFlow.class.getDeclaredField("direction");
+    directionField.setAccessible(true);
+    int direction = (int) directionField.get(game);
+    assertEquals(-1,direction);
+  }
+   @Test 
+  public void testSkipPlayer()
+  throws Exception{
+    game.skip(player2);
+    Field skipField = GameFlow.class.getDeclaredField("playerSkipped");
+    skipField.setAccessible(true);
+    Player skipped = (Player) skipField.get(game);
+    assertEquals(skipped == player2);
+  }
+   @Test 
+  public void testWildCardColour()
+  throws Exception{
+    setScannerInput("RED\n");
+    game.wild();
+    
     Field topCardField = GameFlow.class.getDeclaredField("topCard");
     topCardField.setAccessible(true);
-    topCardField.set(game, new Card(Card.Colours.GREEN, Card.Values.THREE));
+    Card top = (Card) topCardField.get(game);
+    assertEquals(Card.Colours.RED, top.getColour());
+  }
+
+   @Test 
+  public void testWildDrawAddsT()
+  throws Exception{
+    setScannerInput("YELLOW\n");
+    int old = player2.getPersonalDeck().size();
+    game.wildDrawTwo(player2);
+    assertEquals(old + 2, player2.getPersonalDeck(). size());
+    
+    Field topCardField = GameFlow.class.getDeclaredField("playerSkipped");
+    topCardField.setAccessible(true);
+    Player skip = (Player) skipField.get(game);
+    assertTrue(skip == player2);
+
+    Field topCardField = GameFlow.class.getDeclaredField("topCard");
+    topCardField.setAccessible(true);
+    Card top = (Card) topCardField.get(game);
+    assertEquals(Card.Colours.YELLOW, top.getColour());
   }
   
+  @Test 
+  public void testWildCardColour(){
+    player2.getPersonalDeck().clear();
+    player2.addCard(new Card(Card.Colours.RED,Card.Values.ONE));
+    player2.addCard(new ActionCards(Card.Colours.YELLOW,Card.Values.SKIP));
+    player2.addCard(new Card(null,Card.Values.WILD));
+    int score = game.score(player1);
+    assertEquals()
+
+    
+  }
+  }
+  
+    
+    
 }
