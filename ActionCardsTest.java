@@ -7,5 +7,26 @@ import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 public class ActionCardsTest{
+  private GameFlow game;
+  private Player currentPlayer, nextPlayer;
   
+  @Before
+  public void setUp() throws Exception{
+    game = new GameFlow();
+    currentPlayer = new Player("John");
+    nextPlayer = new Player("Mark");
+
+    Field playersField = GameFlow.class.getDeclaredField("players");
+    playersField.setAccessible(true);
+    List players = (List) playersField.get(game);
+    players.clear();
+    players.add(currentPlayer);
+    players.add(nextPlayer);
+
+    Field topCardField = GameFlow.class.getDeclaredField("topCard");
+    topCardField.setAccessible(true);
+    topCardField.set(game,new Card(Card.Colours.BLUE,Card.Values.FOUR))
+
+      
+    
 }
