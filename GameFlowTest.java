@@ -122,7 +122,7 @@ public class GameFlowTest{
     int score = game.score(player1);
     assertEquals(71, score); 
   }
- private void setScannerInput(String text)throws Exception{
+ private void setScannerInput(String text) throws Exception{
    Field fields = GameFlow.class.getDeclaredField("input");
    fields.setAccessible(true);
    fields.set(game, new Scanner(new ByteArrayInputStream(text.getBytes())));
