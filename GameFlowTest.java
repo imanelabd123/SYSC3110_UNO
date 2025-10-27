@@ -102,24 +102,20 @@ public class GameFlowTest{
   }
 
    @Test 
-  public void testWildDrawAddsT()
-  throws Exception{
+   public void testWildDrawAddsT() throws Exception {
     setScannerInput("YELLOW\n");
     int old = player2.getPersonalDeck().size();
     game.wildDrawTwo(player2);
-    assertEquals(old + 2, player2.getPersonalDeck(). size());
-    
-    Field topCardField = GameFlow.class.getDeclaredField("playerSkipped");
-    topCardField.setAccessible(true);
-    Player skip = (Player) skipField.get(game);
+    assertEquals(old + 2, player2.getPersonalDeck().size());
+    Field skippedField = GameFlow.class.getDeclaredField("playerSkipped");
+    skippedField.setAccessible(true);
+    Player skip = (Player) skippedField.get(game);
     assertTrue(skip == player2);
-
     Field topCardField = GameFlow.class.getDeclaredField("topCard");
     topCardField.setAccessible(true);
     Card top = (Card) topCardField.get(game);
     assertEquals(Card.Colours.YELLOW, top.getColour());
   }
-  
   @Test 
   public void testWildCardColour(){
     player2.getPersonalDeck().clear();
