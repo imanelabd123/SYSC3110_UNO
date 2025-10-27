@@ -1,5 +1,6 @@
 /*** @author Iman Elabd
 * @verion 1.2 October 25, 2025
+*test for GameFlow
 */
 
 import org.junit.*;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.lang.reflect.Field;
 import java.io.ByteArrayInputStream;
-
 import java.util.Map;
 
 public class GameFlowTest{
@@ -59,7 +59,7 @@ public class GameFlowTest{
     int expected = 7;
     assertEquals(expected, player1.getPersonalDeck().size());
     assertEquals(expected, player2.getPersonalDeck().size());
-    Feild topCardField = GameFlow.class.getDeclaredField("topCard");
+    Field topCardField = GameFlow.class.getDeclaredField("topCard");
     topCardField.setAccessible(true);
     Card top = (Card) topCardField.get(game);
     boolean notWild = top.getValue() != Card.Values.WILD &&
@@ -86,7 +86,7 @@ public class GameFlowTest{
     Field skipField = GameFlow.class.getDeclaredField("playerSkipped");
     skipField.setAccessible(true);
     Player skipped = (Player) skipField.get(game);
-    assertEquals(skipped == player2);
+    assertTrue(skipped == player2);
   }
    @Test 
   public void testWildCardColour() throws Exception{
@@ -114,7 +114,7 @@ public class GameFlowTest{
     assertEquals(Card.Colours.YELLOW, top.getColour());
   }
   @Test 
-  public void testWildCardColour(){
+  public void testScoresCalculateSumExpected(){
     player2.getPersonalDeck().clear();
     player2.addCard(new Card(Card.Colours.RED,Card.Values.ONE));
     player2.addCard(new ActionCards(Card.Colours.YELLOW,Card.Values.SKIP));
