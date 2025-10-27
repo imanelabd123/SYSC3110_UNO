@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Scanner;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 public class GameFlowTest{
   private GameFlow game;
@@ -13,8 +14,22 @@ public class GameFlowTest{
     player1 = new Player("John");
     player2 = new Player("Mark");
 
-    Field scoreField = GameFlow.class.
+    Field playersField = GameFlow.class.getDeclaredField("Player");
+    playersField.setAccessible(true);
+    List players = (List) playersField.get(game);
+    players.clear();
+    players.add(player1);
+    players.add(player2);
+
+    Field scoresField = GameFlow.class.getDeclaredField("Final Score");
+    scoresField.setAccessible(true);
+    Map scores = (Map) playersField.get(game);
+    players.clear();
+    scores.put(player1.getName(), 0);
+    scores.add(player2.getName(), 0);
+
     
     
   }
+  
 }
